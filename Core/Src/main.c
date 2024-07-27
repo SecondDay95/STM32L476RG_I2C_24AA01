@@ -103,6 +103,33 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  uint8_t test = 0x5A;
+  //Zapisanie wartosci ze zmiennej test w zewnetrznej pamieci eeprom o adresie 0x10
+  //przy uzyciu I2C:
+  if(eeprom_write(0x10, &test, sizeof(test)) != HAL_OK) {
+	  Error_Handler();
+  }
+  /*
+  if(HAL_I2C_Mem_Write(&hi2c1, 0xA0, 0x10, 1, &test, sizeof(test), HAL_MAX_DELAY) != HAL_OK) {
+	  Error_Handler();
+  }
+  */
+
+  //HAL_Delay(5);
+
+  //Odczytanie wartosci z zewnetrznej pamieci eeprom z adresu 0x10:
+  uint8_t result = 0;
+  while(eeprom_read(0x10, &result, sizeof(result)) != HAL_OK)
+  {
+
+  }
+  /*
+  while(HAL_I2C_Mem_Read(&hi2c1, 0xA1, 0x10, 1, &result, sizeof(result), HAL_MAX_DELAY) != HAL_OK)
+  {
+
+  }
+  */
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
